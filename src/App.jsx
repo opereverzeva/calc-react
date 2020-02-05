@@ -49,7 +49,8 @@ class App extends Component {
   };
 
   pressEqual = () => {
-    const result = eval(this.state.preview);
+    const result = new Function("return " + this.state.preview)();
+    // const result = eval(this.state.preview);
 
     const preview = this.state.preview.concat("=" + result);
 
