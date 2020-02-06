@@ -5,28 +5,36 @@ import Button from "./components/Button";
 class App extends Component {
   state = {
     preview: "",
-    view: "0",
-    resul: 0
+    view: "0"
   };
 
   clearState = () => {
     console.log("AC");
     this.setState({
       preview: "",
-      view: "0",
-      resul: 0
+      view: "0"
     });
   };
 
   pressNumber = event => {
     const number = event.target.value;
     console.log(number);
-    const preview = this.state.preview.concat(number);
+    const preview =
+      this.state.preview.includes("=") && !/=$/.exec(this.state.preview)
+        ? number
+        : this.state.preview.concat(number);
+
+    const view =
+      /^[\d.]{1,}$/.exec(this.state.view) && !/^0$/.exec(this.state.view)
+        ? this.state.view.concat(number)
+        : number;
+
     this.setState({
       preview: preview,
-      view: number
+      view: view
     });
   };
+
   pressDot = () => {
     const preview =
       this.state.preview === ""
@@ -34,7 +42,7 @@ class App extends Component {
         : this.state.preview.concat(".");
     this.setState({
       preview: preview,
-      view: "."
+      view: preview
     });
   };
 
