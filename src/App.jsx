@@ -49,10 +49,16 @@ class App extends Component {
   };
 
   pressEqual = () => {
-    const result = new Function("return " + this.state.preview)();
+    const result =
+      this.state.preview === ""
+        ? this.state.view.concat("")
+        : new Function("return " + this.state.preview)();
     // const result = eval(this.state.preview);
 
-    const preview = this.state.preview.concat("=" + result);
+    const preview =
+      this.state.preview === ""
+        ? this.state.preview.concat("")
+        : this.state.preview.concat("=" + result);
 
     this.setState({
       preview: preview,
