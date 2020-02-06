@@ -39,7 +39,13 @@ class App extends Component {
   };
 
   pressOper = event => {
-    const operation = event.target.value;
+    const operation =
+      this.state.preview === ""
+        ? "0" + event.target.value
+        : /[+-\/*]$/.exec(this.state.preview)
+        ? ""
+        : event.target.value;
+
     console.log(operation);
     const preview = this.state.preview.concat(operation);
     this.setState({
@@ -52,12 +58,19 @@ class App extends Component {
     const result =
       this.state.preview === ""
         ? this.state.view.concat("")
+        : this.state.preview.includes("=")
+        ? "0"
+        : /[+-\/*]$/.exec(this.state.preview)
+        ? this.state.preview
         : new Function("return " + this.state.preview)();
-    // const result = eval(this.state.preview);
 
     const preview =
       this.state.preview === ""
         ? this.state.preview.concat("")
+        : this.state.preview.includes("=")
+        ? ""
+        : /[+-\/*]$/.exec(this.state.preview)
+        ? this.state.preview
         : this.state.preview.concat("=" + result);
 
     this.setState({
